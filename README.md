@@ -12,11 +12,19 @@ https://saysomething-ten.vercel.app/
 
 http://localhost:4567/
 
+Make changes.
+
+`vercel login`
+
+`vercel deploy`
+
+### dev requests
+
 **GET** request: `curl http://localhost:4567/`
 
 **POST** request: `curl -X POST -H "Content-Type: application/json" -d '{"string": "something new"}' http://localhost:4567/`
 
-## prod
+## prod requests
 
 **GET** request: `curl https://saysomething-ten.vercel.app/`
 
