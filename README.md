@@ -6,6 +6,8 @@ https://saysomething-ten.vercel.app/
 
 ## dev
 
+`npm install`
+
 `npm start`
 
 http://localhost:4567/
