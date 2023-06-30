@@ -5,7 +5,7 @@ Node.js Express.js API to saysomething, literally just POST something you want t
 1. Open it on browser: https://saysomething-ten.vercel.app/
 2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"string": "your message"}' https://saysomething-ten.vercel.app/`
 
-Expected result: `{"message":"said."}`
+Expected result (*stdout*): `{"message":"said."}`
 
 Code has nothing but this GET and POST, no error handling, no nothing. Feel free to break it :D 
 
