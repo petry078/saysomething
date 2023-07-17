@@ -2,8 +2,8 @@
 
 Node.js Express.js API to saysomething, literally just POST something you want to say. It is all.
 
-1. Open it on browser: https://saysomething-ten.vercel.app/
-2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"string": "your message"}' https://saysomething-ten.vercel.app/`
+1. Open it on browser: https://saysomething-api.vercel.app/
+2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"string": "your message"}' https://saysomething-api.vercel.app/`
 
 Expected result (*stdout*): `{"message":"said."}`
 
@@ -43,7 +43,7 @@ Run:
 
 **GET** request: `curl https://saysomething-ten.vercel.app/`
 
-**POST** request: `curl -X POST -H "Content-Type: application/json" -d '{"string": "something new"}' https://saysomething-ten.vercel.app/` and update the page.
+**POST** request: `curl -X POST -H "Content-Type: application/json" -d '{"string": "something new"}' https://saysomething-api.vercel.app/` and update the page.
 
 ## Future work
 
