@@ -6,6 +6,13 @@ let something = "something"
 //json parse
 app.use(express.json());
 
+//npm start log
+app.listen(port, () => {
+    console.log(`port ${port}`)
+})
+
+
+//http methods
 //get
 app.get("/", (req, res) => {
     res.json(something)
@@ -18,10 +25,4 @@ app.post("/", (req, res) => {
     return res.json({message: 'said.'})
     })
 
-
-//npm start log
-app.listen(port, () => {
-    console.log(`port ${port}`)
-})
-
-
+//end of http methods
