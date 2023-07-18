@@ -51,3 +51,5 @@ Run:
 - [ ] It is all about the headers, right? Implement security with Helmet.js (cool stuff...)
 - [ ] Implement an actual serverless database to finally end this injection hallucination of storing the user input inside this poor helpless string variable
 - [ ] Error handling, obviously...
+
+force redeploy
