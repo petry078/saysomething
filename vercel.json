@@ -2,9 +2,6 @@
     "name": "saysomething",
     "version": 2,
     "public": "true",
-    "build":{
-        "use": "@vercel/node"
-    },
     "routes": [{
         "src": "/(.*)",
         "dest": "api/index.js"
