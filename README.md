@@ -3,9 +3,9 @@
 Node.js Express.js API to saysomething, literally just POST something you want to say. It is all.
 
 1. Open it on browser: https://saysomething-api.vercel.app/
-2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"string": "your message"}' https://saysomething-api.vercel.app/`
+2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"noted": "your message"}' https://saysomething-api.vercel.app/`
 
-Expected result (*stdout*): `{"message":"said."}`
+Expected result (*stdout*): `{"id":<id>,"createdAt":"<date>","noted":"your message"}`
 
 Code has nothing but this GET and POST, no error handling, no nothing. Feel free to break it :D 
 
@@ -47,9 +47,6 @@ Run:
 
 ## Future work
 
-- [ ] Work on a front end page to consume this API and print the `something` variable, really big, in the center of the screen
 - [ ] It is all about the headers, right? Implement security with Helmet.js (cool stuff...)
-- [ ] Implement an actual serverless database to finally end this injection hallucination of storing the user input inside this poor helpless string variable
+- [x] Implement an actual serverless database to finally end this injection hallucination of storing the user input inside this poor helpless string variable
 - [ ] Error handling, obviously...
-
-force redeploy
