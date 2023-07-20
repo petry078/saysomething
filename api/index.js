@@ -18,23 +18,51 @@ app.get('/', async (req, res) => {
 //get byId
 app.get('/:id', async (req, res) => {
   const id = req.params.id
-  const note = await prisma.note.findUnique({
+  const noted = await prisma.note.findUnique({
     where: {
       id: Number(id),
     },
   })
-  return res.json(note)
+  return res.json(noted)
 })
 
 //post
 app.post('/', async (req, res) => {
-  const newNote = await prisma.note.create({
+  const newNoted = await prisma.note.create({
     data: {
-      note: req.body.message,
+      noted: req.body.noted,
     },
   })
 
-  return res.json(newNote)
+  return res.json(newNoted)
+})
+
+// put
+app.put('/:id', async (req, res) => {
+  const id = req.params.id
+  const noted = req.body.noted
+
+  const updatedNote = await prisma.note.update({
+    where: {
+      id: Number(id),
+    },
+    data: {
+      noted: noted,
+    },
+  })
+
+  return res.json(updatedNote)
+})
+
+// delete
+app.delete('/:id', async (req, res) => {
+  const id = req.params.id
+
+  await prisma.note.delete({
+    where: { id: Number(id) },
+  })
+
+  res.json('foi deletado com sucesso!')
 })
 
 //npm start log

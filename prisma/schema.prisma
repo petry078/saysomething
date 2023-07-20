@@ -11,5 +11,5 @@ generator client {
 model Note {
     id Int @id @default(autoincrement())
     createdAt DateTime @default(now())
-    note String
+    noted String
 }
