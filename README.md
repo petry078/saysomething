@@ -50,6 +50,8 @@ Use this curl to DELETE an specific note.
 
 `curl -X DELETE https://saysomething-api.vercel.app/<note-id>`
 
+Expected stdout: `Note 12 deleted.`
+
 ## Future work
 
 - [x] Implement an actual serverless database to finally end this injection hallucination of storing the user input inside this poor helpless string variable
