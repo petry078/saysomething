@@ -62,7 +62,7 @@ app.delete('/:id', async (req, res) => {
     where: { id: Number(id) },
   })
 
-  res.json('foi deletado com sucesso!')
+  res.json(`Note ${id} deleted.`)
 })
 
 //npm start log

@@ -2,11 +2,6 @@
 
 Node.js Express.js API to saysomething, in notes format.
 
-1. Open it on browser: https://saysomething-api.vercel.app/
-2. Try: `curl -X POST -H "Content-Type: application/json" -d '{"noted": "your message"}' https://saysomething-api.vercel.app/`
-
-Expected result (*stdout*): `{"id":<id>,"createdAt":"<date>","noted":"your message"}`
-
 ## Dev
 
 Clone this repository and inside the saysometing directory, run:
@@ -39,11 +34,15 @@ Use this curl to POST an note.
 
 `curl -X POST -H "Content-Type: application/json" -d '{"noted": "your note"}' https://saysomething-api.vercel.app/`
 
+Expected stdout: `{"id":12,"createdAt":"2023-07-21T02:08:30.404Z","noted":"stdout"}`
+
 ### PUT
 
 Use this curl to update  an note.
 
-`curl -X POST -H "Content-Type: application/json" -d '{"noted": "your updated note"}' https://saysomething-api.vercel.app/<note-id>`
+`curl -X PUT -H "Content-Type: application/json" -d '{"noted": "your updated note"}' https://saysomething-api.vercel.app/<note-id>`
+
+Expected stdout: `{"id":12,"createdAt":"2023-07-21T02:08:30.404Z","noted":"your updated note"}`
 
 ### DELETE
 
