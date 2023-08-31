@@ -58,3 +58,7 @@ Expected stdout: `Note 12 deleted.`
 - [ ] User authentication. What do you think of JWT?
 - [ ] It is all about the headers, right? Implement security with Helmet.js (cool stuff...)
 - [ ] Error handling, obviously...
+
+O que fazer?
+
+lá em index.js criar uma rota para /index.html um get msm aí retornar aquela page. Se index.html vier do mesmo servidor da API não tem  mais Cors error esperamos...
