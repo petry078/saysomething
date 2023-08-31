@@ -1,4 +1,4 @@
-# saysomething
+Oi# saysomething
 
 Node.js Express.js API to saysomething, in notes format.
 
@@ -62,3 +62,4 @@ Expected stdout: `Note 12 deleted.`
 O que fazer?
 
 lá em index.js criar uma rota para /index.html um get msm aí retornar aquela page. Se index.html vier do mesmo servidor da API não tem  mais Cors error esperamos...
+https://www.digitalocean.com/community/tutorials/use-expressjs-to-deliver-html-files
