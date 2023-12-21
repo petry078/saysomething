@@ -1,15 +1,22 @@
-datasource db {
-    url = env("DATABASE_URL")
-    directUrl = env("DIRECT_URL")
-    provider = "postgresql"
+generator client {
+  provider = "prisma-client-js"
 }
 
-generator client {
-    provider = "prisma-client-js"
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model Note {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  noted     String
+}
+
+model Usuario {
     id Int @id @default(autoincrement())
-    createdAt DateTime @default(now())
-    noted String
+    username String @unique
+    hash String
+    salt String
 }
