@@ -6,15 +6,13 @@ const jwt = require('jsonwebtoken')
 const app = express()
 const prisma = new PrismaClient()
 const PORT = 3000
-let something = 'something'
 
-//json parse
 app.use(express.json())
 
-// REGISTER
+// /REGISTER
 app.post('/register', async (req, res) => {
   if (!req.body.username || !req.body.password) {
-    res.send({ message: 'all fields required' })
+    res.send({ message: 'All fields required.' })
     return
   }
 
@@ -33,10 +31,10 @@ app.post('/register', async (req, res) => {
   res.json({ token: jwt })
 })
 
-// LOGIN
+// /LOGIN
 app.post('/login', async (req, res) => {
   if (!req.body.username || !req.body.password) {
-    res.send({ message: 'all fields required' })
+    res.send({ message: 'All fields required.' })
     return
   }
 
@@ -50,31 +48,31 @@ app.post('/login', async (req, res) => {
 
   if (!user || !isPasswordValid) {
     res.status(401).json({
-      message: 'Usuario ou senha incorreto',
+      message: 'Incorrect user or password.',
     })
   }
 
   res.json({ token: generateJwt(user) })
 })
 
-//get findALl
+//LEGACY GET ALL
 app.get('/', async (req, res) => {
   const notes = await prisma.note.findMany()
   return res.json(notes)
 })
 
-//get byId
-// app.get('/:id', async (req, res) => {
-//   const id = req.params.id
-//   const noted = await prisma.note.findUnique({
-//     where: {
-//       id: Number(id),
-//     },
-//   })
-//   return res.json(noted)
-// })
+app.get('/:id', async (req, res) => {
+  const id = req.params.id
+  const noted = await prisma.note.findUnique({
+    where: {
+      id: Number(id),
+    },
+  })
+  return res.json(noted)
+})
 
-//post
+
+//LEGACY POST
 app.post('/', async (req, res) => {
   const newNoted = await prisma.note.create({
     data: {
@@ -85,7 +83,7 @@ app.post('/', async (req, res) => {
   return res.json(newNoted)
 })
 
-// put
+//LEGACY PUT
 app.put('/:id', async (req, res) => {
   const id = req.params.id
   const noted = req.body.noted
@@ -102,7 +100,7 @@ app.put('/:id', async (req, res) => {
   return res.json(updatedNote)
 })
 
-// delete
+//LEGACY DELETE
 app.delete('/:id', async (req, res) => {
   const id = req.params.id
 
@@ -113,11 +111,12 @@ app.delete('/:id', async (req, res) => {
   res.json(`Note ${id} deleted.`)
 })
 
-//npm start log
+//SERVER START LOG
 app.listen(PORT, () => {
-  console.log(`port ${PORT}`)
+  console.log(`http://localhost:${PORT}`)
 })
 
+//JWT STUFF
 function criptHashPassword(password, salt) {
   return crypto.pbkdf2Sync(password, salt, 1000, 512, 'sha512').toString('hex')
 }
