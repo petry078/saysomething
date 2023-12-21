@@ -2,6 +2,7 @@ const express = require('express')
 const { PrismaClient } = require('@prisma/client')
 const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const jwtDecode = require('jwt-decode').jwtDecode
 
 const app = express()
 const prisma = new PrismaClient()
@@ -57,7 +58,11 @@ app.post('/login', async (req, res) => {
 
 //LEGACY GET ALL
 app.get('/', async (req, res) => {
-  const notes = await prisma.note.findMany()
+  const notes = await prisma.note.findMany({
+    where: {
+      usuario_id: getIdByToken(req.headers.authorization),
+    },
+  })
   return res.json(notes)
 })
 
@@ -71,12 +76,12 @@ app.get('/:id', async (req, res) => {
   return res.json(noted)
 })
 
-
 //LEGACY POST
 app.post('/', async (req, res) => {
   const newNoted = await prisma.note.create({
     data: {
       noted: req.body.noted,
+      usuario_id: getIdByToken(req.headers.authorization),
     },
   })
 
@@ -143,4 +148,9 @@ function generateJwt(user) {
     },
     'UMA_SENHA_SECRETA'
   )
+}
+
+function getIdByToken(token) {
+  const decodedToken = jwtDecode(token)
+  return decodedToken.id
 }

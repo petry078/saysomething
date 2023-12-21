@@ -12,6 +12,7 @@ model Note {
   id        Int      @id @default(autoincrement())
   createdAt DateTime @default(now())
   noted     String
+  usuario_id Int 
 }
 
 model Usuario {
