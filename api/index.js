@@ -1,8 +1,8 @@
-const express = require('express')
-const { PrismaClient } = require('@prisma/client')
-const crypto = require('crypto')
-const jwt = require('jsonwebtoken')
-const jwtDecode = require('jwt-decode').jwtDecode
+import express from 'express';
+import { PrismaClient } from '@prisma/client';
+import crypto from 'crypto';
+import jwt from 'jsonwebtoken';
+import { jwtDecode } from 'jwt-decode';
 
 const app = express()
 const prisma = new PrismaClient()
@@ -23,7 +23,7 @@ app.post('/register', async (req, res) => {
     data: {
       username: req.body.username,
       hash: criptHashPassword(req.body.password, newSalt),
-      salt: newSalt,
+      salt: newSalt
     },
   })
 
@@ -41,7 +41,7 @@ app.post('/login', async (req, res) => {
 
   const user = await prisma.usuario.findUnique({
     where: {
-      username: req.body.username,
+      username: req.body.username
     },
   })
 
@@ -49,18 +49,18 @@ app.post('/login', async (req, res) => {
 
   if (!user || !isPasswordValid) {
     res.status(401).json({
-      message: 'Incorrect user or password.',
+      message: 'Incorrect user or password.'
     })
   }
 
   res.json({ token: generateJwt(user) })
 })
 
-//LEGACY GET ALL
+//GET ALL
 app.get('/', async (req, res) => {
   const notes = await prisma.note.findMany({
     where: {
-      usuario_id: getIdByToken(req.headers.authorization),
+      usuario_id: getIdByToken(req.headers.authorization)
     },
   })
   return res.json(notes)
@@ -71,24 +71,25 @@ app.get('/:id', async (req, res) => {
   const noted = await prisma.note.findUnique({
     where: {
       id: Number(id),
+      usuario_id: getIdByToken(req.headers.authorization)
     },
   })
   return res.json(noted)
 })
 
-//LEGACY POST
+//POST
 app.post('/', async (req, res) => {
   const newNoted = await prisma.note.create({
     data: {
       noted: req.body.noted,
-      usuario_id: getIdByToken(req.headers.authorization),
+      usuario_id: getIdByToken(req.headers.authorization)
     },
   })
 
   return res.json(newNoted)
 })
 
-//LEGACY PUT
+//PUT
 app.put('/:id', async (req, res) => {
   const id = req.params.id
   const noted = req.body.noted
@@ -96,6 +97,7 @@ app.put('/:id', async (req, res) => {
   const updatedNote = await prisma.note.update({
     where: {
       id: Number(id),
+      usuario_id: getIdByToken(req.headers.authorization)
     },
     data: {
       noted: noted,
@@ -105,12 +107,13 @@ app.put('/:id', async (req, res) => {
   return res.json(updatedNote)
 })
 
-//LEGACY DELETE
+//DELETE
 app.delete('/:id', async (req, res) => {
   const id = req.params.id
 
   await prisma.note.delete({
     where: { id: Number(id) },
+    usuario_id: getIdByToken(req.headers.authorization)
   })
 
   res.json(`Note ${id} deleted.`)
