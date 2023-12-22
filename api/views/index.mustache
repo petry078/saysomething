@@ -6,9 +6,9 @@
     <title>Document</title>
     <script>
     function login(){
-    const username = document.querySelector('input[name="username"]').value;
-    const password = document.querySelector('input[name="password"]').value;
-    const requestBody = {
+        const username = document.querySelector('input[name="username"]').value;
+        const password = document.querySelector('input[name="password"]').value;
+        const requestBody = {
         username: username,
         password: password
     };
@@ -22,13 +22,36 @@
     }).then((response) => {
         return response.json();
     }).then((data) => {
-        // Handle the response data here, for example:
         console.log('Response from server:', data);
-        // You can perform further actions based on the response
     }).catch((error) => {
         console.error('Error:', error);
     });
-}
+    }
+
+    function register(){
+        const registerUsername = document.querySelector('input[name="registerUsername"]').value;
+        const registerPassword = document.querySelector('input[name="registerPassword"]').value;
+
+        const requestBody = {
+        username: registerUsername,
+        password: registerPassword
+    };
+
+    fetch('http://localhost:3000/register', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+    }).then((response) => {
+        return response.json();
+    }).then((data) => {
+        console.log('Response from server:', data);
+    }).catch((error) => {
+        console.error('Error:', error);
+    });
+    }  
+
     </script>
 </head>
 <body>
@@ -39,6 +62,14 @@
         <input type="text" name="username" placeholder="username"/><br><br>
         <input type="password" name="password" placeholder="password"/><br><br>
         <button type="button" onclick="login()">Login</button>
+    </form>  
+
+    <h1>Register</h1>
+    <form method="POST">
+        <input type="text" name="registerUsername" placeholder="username"/><br><br>
+        
+        <input type="password" name="registerPassword" placeholder="password"/><br><br>
+        <button type="button" onclick="register()">Register</button>
     </form>  
     </main>
 

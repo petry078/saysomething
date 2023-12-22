@@ -172,3 +172,4 @@ function getIdByToken(token) {
   return decodedToken.id
 }
 
+function calculateDaysBetweenDates(begin, end) {}
