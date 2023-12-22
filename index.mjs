@@ -1,22 +1,27 @@
-import express from 'express';
-import { PrismaClient } from '@prisma/client';
-import crypto from 'crypto';
-import jwt from 'jsonwebtoken';
-import { jwtDecode } from 'jwt-decode';
-import mustacheExpress from 'mustache-express';
-import * as url from 'url';
+import express from 'express'
+import { PrismaClient } from '@prisma/client'
+import crypto from 'crypto'
+import jwt from 'jsonwebtoken'
+import { jwtDecode } from 'jwt-decode'
+import mustacheExpress from 'mustache-express'
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const app = express()
 const prisma = new PrismaClient()
 const PORT = 3000
-const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 app.use(express.json())
 
 //1. VIEW ENGINE (MUSTACHE-EXPRESS)
-app.engine('mustache', mustacheExpress());
-app.set('view engine', 'mustache');
-app.set('views', __dirname + '../front/')
+app.engine('mustache', mustacheExpress(path.join(__dirname + 'front/', '.mustache')))
+app.set('view engine', 'mustache')
+
+app.set('views', path.join(__dirname, 'front/'))
+
+app.use(express.static(path.join(__dirname, '/public')))
 
 //2. FRONTEND
 // /SIGN IN
@@ -53,7 +58,7 @@ app.post('/register', async (req, res) => {
     data: {
       username: req.body.username,
       hash: criptHashPassword(req.body.password, newSalt),
-      salt: newSalt
+      salt: newSalt,
     },
   })
 
@@ -71,7 +76,7 @@ app.post('/login', async (req, res) => {
 
   const user = await prisma.usuario.findUnique({
     where: {
-      username: req.body.username
+      username: req.body.username,
     },
   })
 
@@ -79,19 +84,18 @@ app.post('/login', async (req, res) => {
 
   if (!user || !isPasswordValid) {
     res.status(401).json({
-      message: 'Incorrect user or password.'
+      message: 'Incorrect user or password.',
     })
   }
 
   res.json({ token: generateJwt(user) })
 })
 
-
 //GET ALL
 app.get('/notes', async (req, res) => {
   const notes = await prisma.note.findMany({
     where: {
-      usuario_id: getIdByToken(req.headers.authorization)
+      usuario_id: getIdByToken(req.headers.authorization),
     },
   })
   return res.json(notes)
@@ -102,7 +106,7 @@ app.get('/notes/:id', async (req, res) => {
   const noted = await prisma.note.findUnique({
     where: {
       id: Number(id),
-      usuario_id: getIdByToken(req.headers.authorization)
+      usuario_id: getIdByToken(req.headers.authorization),
     },
   })
   return res.json(noted)
@@ -113,7 +117,7 @@ app.post('/', async (req, res) => {
   const newNoted = await prisma.note.create({
     data: {
       noted: req.body.noted,
-      usuario_id: getIdByToken(req.headers.authorization)
+      usuario_id: getIdByToken(req.headers.authorization),
     },
   })
 
@@ -128,7 +132,7 @@ app.put('notes/:id', async (req, res) => {
   const updatedNote = await prisma.note.update({
     where: {
       id: Number(id),
-      usuario_id: getIdByToken(req.headers.authorization)
+      usuario_id: getIdByToken(req.headers.authorization),
     },
     data: {
       noted: noted,
@@ -144,7 +148,7 @@ app.delete('notes/:id', async (req, res) => {
 
   await prisma.note.delete({
     where: { id: Number(id) },
-    usuario_id: getIdByToken(req.headers.authorization)
+    usuario_id: getIdByToken(req.headers.authorization),
   })
 
   res.json(`Note ${id} deleted.`)
