@@ -13,11 +13,33 @@ const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 app.use(express.json())
 
-//VIEW ENGINE (MUSTACHE-EXPRESS)
+//1. VIEW ENGINE (MUSTACHE-EXPRESS)
 app.engine('mustache', mustacheExpress());
 app.set('view engine', 'mustache');
-app.set('views', __dirname + 'views/')
+app.set('views', __dirname + '../front/')
 
+//2. FRONTEND
+// /SIGN IN
+app.get('/signin', async (req, res) => {
+  return res.render('signin')
+})
+
+// /SIGN UP
+app.get('/signup', async (req, res) => {
+  return res.render('signup')
+})
+
+// /
+app.get('/', async (req, res) => {
+  return res.render('index')
+})
+
+// /read
+app.get('/read', async (req, res) => {
+  return res.render('read')
+})
+
+//3. API
 // /REGISTER
 app.post('/register', async (req, res) => {
   if (!req.body.username || !req.body.password) {
@@ -64,12 +86,6 @@ app.post('/login', async (req, res) => {
   res.json({ token: generateJwt(user) })
 })
 
-//VIEW /
-app.get('/', async (req, res) => {
-  return res.render('index')
-})
-
-
 
 //GET ALL
 app.get('/notes', async (req, res) => {
@@ -81,7 +97,7 @@ app.get('/notes', async (req, res) => {
   return res.json(notes)
 })
 
-app.get('notes/:id', async (req, res) => {
+app.get('/notes/:id', async (req, res) => {
   const id = req.params.id
   const noted = await prisma.note.findUnique({
     where: {
@@ -134,12 +150,12 @@ app.delete('notes/:id', async (req, res) => {
   res.json(`Note ${id} deleted.`)
 })
 
-//SERVER START LOG
+//4. SERVER START LOG
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`)
 })
 
-//JWT STUFF
+//5. JWT
 function criptHashPassword(password, salt) {
   return crypto.pbkdf2Sync(password, salt, 1000, 512, 'sha512').toString('hex')
 }
@@ -171,5 +187,3 @@ function getIdByToken(token) {
   const decodedToken = jwtDecode(token)
   return decodedToken.id
 }
-
-function calculateDaysBetweenDates(begin, end) {}
