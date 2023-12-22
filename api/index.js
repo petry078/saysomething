@@ -3,12 +3,20 @@ import { PrismaClient } from '@prisma/client';
 import crypto from 'crypto';
 import jwt from 'jsonwebtoken';
 import { jwtDecode } from 'jwt-decode';
+import mustacheExpress from 'mustache-express';
+import * as url from 'url';
 
 const app = express()
 const prisma = new PrismaClient()
 const PORT = 3000
+const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 app.use(express.json())
+
+//VIEW ENGINE (MUSTACHE-EXPRESS)
+app.engine('mustache', mustacheExpress());
+app.set('view engine', 'mustache');
+app.set('views', __dirname + 'views/')
 
 // /REGISTER
 app.post('/register', async (req, res) => {
@@ -56,8 +64,15 @@ app.post('/login', async (req, res) => {
   res.json({ token: generateJwt(user) })
 })
 
-//GET ALL
+//VIEW /
 app.get('/', async (req, res) => {
+  return res.render('index')
+})
+
+
+
+//GET ALL
+app.get('/notes', async (req, res) => {
   const notes = await prisma.note.findMany({
     where: {
       usuario_id: getIdByToken(req.headers.authorization)
@@ -66,7 +81,7 @@ app.get('/', async (req, res) => {
   return res.json(notes)
 })
 
-app.get('/:id', async (req, res) => {
+app.get('notes/:id', async (req, res) => {
   const id = req.params.id
   const noted = await prisma.note.findUnique({
     where: {
@@ -90,7 +105,7 @@ app.post('/', async (req, res) => {
 })
 
 //PUT
-app.put('/:id', async (req, res) => {
+app.put('notes/:id', async (req, res) => {
   const id = req.params.id
   const noted = req.body.noted
 
@@ -108,7 +123,7 @@ app.put('/:id', async (req, res) => {
 })
 
 //DELETE
-app.delete('/:id', async (req, res) => {
+app.delete('notes/:id', async (req, res) => {
   const id = req.params.id
 
   await prisma.note.delete({
@@ -135,7 +150,6 @@ function salt() {
 
 function validPassword(password, user) {
   const hash = crypto.pbkdf2Sync(password, user.salt, 1000, 512, 'sha512').toString('hex')
-  console.log('hash', hash)
   return user.hash === hash
 }
 
@@ -157,3 +171,4 @@ function getIdByToken(token) {
   const decodedToken = jwtDecode(token)
   return decodedToken.id
 }
+
