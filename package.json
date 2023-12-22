@@ -2,11 +2,11 @@
   "name": "saysomething",
   "version": "1.0.0",
   "description": "",
-  "main": "api/index.js",
+  "main": "index.mjs",
   "type": "module",
   "scripts": {
     "start": "node .",
-    "dev": "nodemon .",
+    "dev": "nodemon -e mjs,js,mustache,css ./api.mjs",
     "postinstall": "prisma generate",
     "migrate": "prisma migrate dev --name --"
   },
