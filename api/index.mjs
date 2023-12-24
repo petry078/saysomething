@@ -3,45 +3,31 @@ import { PrismaClient } from '@prisma/client'
 import crypto from 'crypto'
 import jwt from 'jsonwebtoken'
 import { jwtDecode } from 'jwt-decode'
-import mustacheExpress from 'mustache-express'
+import cors from 'cors'
 import path from 'path'
 import { fileURLToPath } from 'url'
+const __filename = fileURLToPath(import.meta.url)
+
+const __dirname = path.dirname(__filename)
 
 const app = express()
 const prisma = new PrismaClient()
 const PORT = 3000
-const __filename = fileURLToPath(import.meta.url)
-const __dirname = path.dirname(__filename)
 
 app.use(express.json())
 
-//1. VIEW ENGINE (MUSTACHE-EXPRESS)
-app.engine('mustache', mustacheExpress(path.join(__dirname + 'front/', '.mustache')))
-app.set('view engine', 'mustache')
-
-app.set('views', path.join(__dirname, 'front/'))
-
-app.use(express.static(path.join(__dirname, '/public')))
+app.use(cors())
 
 //2. FRONTEND
-// /SIGN IN
-app.get('/signin', async (req, res) => {
-  return res.render('signin')
-})
+const buildLocation = 'public'
+app.use(express.static(buildLocation))
 
-// /SIGN UP
-app.get('/signup', async (req, res) => {
-  return res.render('signup')
-})
-
-// /
-app.get('/', async (req, res) => {
-  return res.render('index')
-})
-
-// /read
-app.get('/read', async (req, res) => {
-  return res.render('read')
+app.use((req, res, next) => {
+  if (!req.originalUrl.includes(buildLocation)) {
+    res.sendFile(path.join(__dirname, '../', buildLocation, 'index.html'))
+  } else {
+    next()
+  }
 })
 
 //3. API

@@ -5,8 +5,11 @@
   "main": "index.mjs",
   "type": "module",
   "scripts": {
-    "start": "node .",
-    "dev": "nodemon -e mjs,js,mustache,css ./api.mjs",
+    "start": "node ./api/index.mjs",
+    "dev:front": "vite",
+    "build:front": "vite build",
+    "dev": "nodemon -e mjs,js ./api/index.mjs",
+    "server": "vite build && node ./api/index.mjs",
     "postinstall": "prisma generate",
     "migrate": "prisma migrate dev --name --"
   },
@@ -15,13 +18,18 @@
   "license": "ISC",
   "dependencies": {
     "@prisma/client": "^5.0.0",
+    "axios": "^1.6.2",
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "jwt-decode": "^4.0.0",
-    "mustache-express": "^1.3.2",
-    "prisma": "^5.0.0"
+    "prisma": "^5.0.0",
+    "vue": "^3.3.13",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
-    "nodemon": "^3.0.1"
+    "@vitejs/plugin-vue": "^4.5.2",
+    "nodemon": "^3.0.1",
+    "vite": "^5.0.10"
   }
 }
