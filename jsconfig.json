@@ -1,0 +1,8 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./front/src/*"]
+    }
+  },
+  "exclude": ["node_modules", "front/dist"]
+}
