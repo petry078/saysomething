@@ -15,9 +15,14 @@ import Card from 'primevue/card'
 import InputText from 'primevue/inputtext'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
+import Textarea from 'primevue/textarea'
+import { isLogged } from './services/authentication/authentication'
 
 // process.env.VUE_APP_API_URL
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
+axios.defaults.headers.common['Authorization'] = isLogged()
+  ? `Bearer ${localStorage.getItem('token')}`
+  : ''
 
 createApp(App)
   .component('Toolbar', Toolbar)
@@ -26,6 +31,7 @@ createApp(App)
   .component('Card', Card)
   .component('InputText', InputText)
   .component('Toast', Toast)
+  .component('Textarea', Textarea)
   .use(ToastService)
   .use(PrimeVue)
   .use(router)

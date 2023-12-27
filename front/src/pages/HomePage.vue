@@ -12,6 +12,7 @@
       <Menu ref="menu" id="overlay-menu" :model="items" :popup="true" />
     </template>
   </Toolbar>
+  <router-view></router-view>
 </template>
 
 <script setup>
@@ -24,7 +25,7 @@ const router = useRouter()
 
 onMounted(() => {
   if (!isLogged()) {
-    router.push('/login')
+    return router.push('/login')
   }
 })
 
@@ -34,6 +35,13 @@ const items = ref([
     icon: 'pi pi-sign-out',
     command: () => {
       onLogout()
+    },
+  },
+  {
+    label: 'Create note',
+    icon: 'pi pi-note',
+    command: () => {
+      router.push('/note/create')
     },
   },
 ])

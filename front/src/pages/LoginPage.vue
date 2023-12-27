@@ -48,10 +48,12 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
 
+const showPassword = ref(false)
+
 const username = ref('')
 const password = ref('')
+
 const router = useRouter()
-const showPassword = ref(false)
 const toast = useToast()
 
 const onSubmit = async () => {
@@ -65,7 +67,6 @@ const onSubmit = async () => {
     localStorage.setItem('token', response.data.token)
     router.push('/')
   } catch (error) {
-    // console.error(error)
     toast.add({
       severity: 'error',
       summary: 'Error',

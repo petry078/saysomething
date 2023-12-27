@@ -99,7 +99,7 @@ app.get('/notes/:id', async (req, res) => {
 })
 
 //POST
-app.post('/', async (req, res) => {
+app.post('/notes', async (req, res) => {
   const newNoted = await prisma.note.create({
     data: {
       noted: req.body.noted,
