@@ -23,7 +23,7 @@ const buildLocation = 'public'
 app.use(express.static(buildLocation))
 
 app.use((req, res, next) => {
-  if (!req.originalUrl.includes(buildLocation)) {
+  if (req.originalUrl.includes(buildLocation)) {
     res.sendFile(path.join(__dirname, '../', buildLocation, 'index.html'))
   } else {
     next()
@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 // /REGISTER
 app.post('/register', async (req, res) => {
   if (!req.body.username || !req.body.password) {
-    res.send({ message: 'All fields required.' })
+    res.status(401).send({ message: 'All fields required.' })
     return
   }
 
@@ -56,7 +56,7 @@ app.post('/register', async (req, res) => {
 // /LOGIN
 app.post('/login', async (req, res) => {
   if (!req.body.username || !req.body.password) {
-    res.send({ message: 'All fields required.' })
+    res.status(401).send({ message: 'All fields required.' })
     return
   }
 
