@@ -1,10 +1,17 @@
 <template>
   <h1>Notes</h1>
-  <ul>
-    <li v-for="(note, index) in notes" :key="note.id">{{ note.noted }}</li>
-  </ul>
+
+  <div class="list">
+    <Note
+      v-for="(note, index) in notes"
+      :key="note.id"
+      :text="note.noted"
+      :id="note.id"
+    />
+  </div>
 </template>
 <script setup>
+import Note from '../components/Note.vue'
 import { onMounted, ref } from 'vue'
 import axios from 'axios'
 
@@ -21,3 +28,9 @@ const getNotes = async () => {
   } catch (error) {}
 }
 </script>
+<style>
+.list {
+  display: flex;
+  gap: 16px;
+}
+</style>

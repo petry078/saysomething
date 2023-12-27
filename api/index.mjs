@@ -111,7 +111,7 @@ app.post('/notes', async (req, res) => {
 })
 
 //PUT
-app.put('notes/:id', async (req, res) => {
+app.put('/notes/:id', async (req, res) => {
   const id = req.params.id
   const noted = req.body.noted
 
@@ -129,12 +129,11 @@ app.put('notes/:id', async (req, res) => {
 })
 
 //DELETE
-app.delete('notes/:id', async (req, res) => {
+app.delete('/notes/:id', async (req, res) => {
   const id = req.params.id
 
   await prisma.note.delete({
-    where: { id: Number(id) },
-    usuario_id: getIdByToken(req.headers.authorization),
+    where: { id: Number(id), usuario_id: getIdByToken(req.headers.authorization) },
   })
 
   res.json(`Note ${id} deleted.`)
