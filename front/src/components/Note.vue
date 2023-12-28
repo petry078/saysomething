@@ -2,20 +2,25 @@
   <div class="note">
     <div class="note-content">
       <p>{{ text }}</p>
-      <Button icon="pi" severity="secondary" aria-label="Bookmark" @click="goToEdit">
-        &#128684
-      </Button>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div><DateFormat :date="createdAt" /></div>
+        <Button  icon="pi" severity="secondary" aria-label="Bookmark" @click="goToEdit" rounded>
+          &#128684
+        </Button>
+      </div>
     </div>
   </div>
 </template>
 <script setup>
 import { useRouter } from 'vue-router'
+import DateFormat from './DateFormat.vue'
 
 const router = useRouter()
 
 const props = defineProps({
   text: String,
-  id: Number
+  id: Number,
+  createdAt: Date
 })
 
 const goToEdit = () => {

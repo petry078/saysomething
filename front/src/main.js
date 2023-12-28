@@ -17,6 +17,7 @@ import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
 import Textarea from 'primevue/textarea'
 import { isLogged, setAuthorization } from './services/authentication/authentication'
+import Tooltip from 'primevue/tooltip'
 
 // process.env.VUE_APP_API_URL
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
@@ -32,6 +33,7 @@ createApp(App)
   .component('InputText', InputText)
   .component('Toast', Toast)
   .component('Textarea', Textarea)
+  .directive('Tooltip', Tooltip)
   .use(ToastService)
   .use(PrimeVue)
   .use(router)

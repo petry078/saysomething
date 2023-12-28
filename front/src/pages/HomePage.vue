@@ -1,5 +1,8 @@
 <template>
-  <Toolbar>
+  <Toolbar class="toolbar-custumized">
+    <template #start>
+      <div style="cursor: pointer" @click="goToHome">Notes</div>
+    </template>
     <template #end>
       <Button
         icon="pi pi-user"
@@ -12,14 +15,15 @@
       <Menu ref="menu" id="overlay-menu" :model="items" :popup="true" />
     </template>
   </Toolbar>
-  <router-view></router-view>
+  <div class="container">
+    <router-view></router-view>
+  </div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue'
 import { logout, isLogged } from '../services/authentication/authentication'
 import { useRouter } from 'vue-router'
-import axios from 'axios'
 
 const menu = ref()
 const router = useRouter()
@@ -55,4 +59,22 @@ const onLogout = () => {
   logout()
   router.push('/login')
 }
+
+const goToHome = () => {
+  router.push('/')
+}
 </script>
+<style>
+.toolbar-custumized {
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  padding: 0.5rem 1.25rem;
+  border-radius: 0;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
+.container {
+  width: 1024px;
+  margin: auto;
+}
+</style>

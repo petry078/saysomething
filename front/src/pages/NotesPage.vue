@@ -7,6 +7,7 @@
       :key="note.id"
       :text="note.noted"
       :id="note.id"
+      :created-at="createdAt"
     />
   </div>
 </template>
