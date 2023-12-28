@@ -19,6 +19,7 @@
 import { ref, onMounted } from 'vue'
 import { logout, isLogged } from '../services/authentication/authentication'
 import { useRouter } from 'vue-router'
+import axios from 'axios'
 
 const menu = ref()
 const router = useRouter()

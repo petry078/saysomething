@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const logout = () => {
   localStorage.clear()
 }
@@ -9,4 +11,10 @@ const isLogged = () => {
   return true
 }
 
-export { logout, isLogged }
+const setAuthorization = () => {
+  axios.defaults.headers.common['Authorization'] = `Bearer ${localStorage.getItem(
+    'token'
+  )}`
+}
+
+export { logout, isLogged, setAuthorization }

@@ -16,13 +16,13 @@ import InputText from 'primevue/inputtext'
 import ToastService from 'primevue/toastservice'
 import Toast from 'primevue/toast'
 import Textarea from 'primevue/textarea'
-import { isLogged } from './services/authentication/authentication'
+import { isLogged, setAuthorization } from './services/authentication/authentication'
 
 // process.env.VUE_APP_API_URL
 axios.defaults.baseURL = import.meta.env.VITE_API_URL
-axios.defaults.headers.common['Authorization'] = isLogged()
-  ? `Bearer ${localStorage.getItem('token')}`
-  : ''
+if (isLogged) {
+  setAuthorization()
+}
 
 createApp(App)
   .component('Toolbar', Toolbar)

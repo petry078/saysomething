@@ -47,6 +47,7 @@ import axios from 'axios'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useToast } from 'primevue/usetoast'
+import { setAuthorization } from '../services/authentication/authentication'
 
 const showPassword = ref(false)
 
@@ -65,12 +66,13 @@ const onSubmit = async () => {
   try {
     const response = await axios.post('/login', payload)
     localStorage.setItem('token', response.data.token)
+    setAuthorization()
     router.push('/')
   } catch (error) {
     toast.add({
       severity: 'error',
       summary: 'Error',
-      detail: error.response.data.message,
+      detail: error.response?.data?.message,
       life: 3000,
     })
   }
